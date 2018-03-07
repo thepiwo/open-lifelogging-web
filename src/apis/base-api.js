@@ -23,14 +23,12 @@ export default {
 
   getClient: () =>
     axios.create({
-      baseURL: this.a.getApiUrl(),
-      timeout: 1000
+      baseURL: this.a.getApiUrl()
     }),
 
   getAuthClient: () =>
     axios.create({
       baseURL: this.a.getApiUrl(),
-      timeout: 1000,
       headers: { Token: this.a.getToken() }
     }),
 

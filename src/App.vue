@@ -12,11 +12,11 @@
                 <ul class="navbar-nav mr-auto">
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Feed</a>
+                        <a class="nav-link" href="/feed">Feed</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Map</a>
+                        <a class="nav-link" href="/map">Map</a>
                     </li>
 
                 </ul>
