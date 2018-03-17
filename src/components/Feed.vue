@@ -1,5 +1,5 @@
 <template>
-    <div class="container card">
+    <div id="feed" class="container card">
         <div class="card-body">
             <h1 class="card-title" v-if="user">{{date}} feed for {{user.username}}
                 <small v-show="logs">{{logs.length}} logs</small>
@@ -34,7 +34,7 @@ import api from "../apis/api";
 export default {
   data() {
     return {
-      date: new Date().toISOString().slice(0, 10),
+      date: "1970-01-18", //new Date().toISOString().slice(0, 10),
       logs: [],
       user: null
     };
@@ -54,4 +54,7 @@ export default {
 </script>
 
 <style lang="scss">
+#feed {
+  margin-top: 1em;
+}
 </style>
