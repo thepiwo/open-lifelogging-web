@@ -5,6 +5,8 @@
 <script>
 import api from "../apis/api";
 import L from "leaflet";
+import { EventBus } from "../utils/event-bus";
+import Storage from "../utils/storage";
 
 export default {
   data() {
@@ -18,6 +20,11 @@ export default {
       })
     };
   },
+  created() {
+    EventBus.$on("dateChange", () => {
+      this.drawLogsMap();
+    });
+  },
   async mounted() {
     this.map = L.map("map", { zoomControl: false }).setView([0, 0], 13);
     L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
@@ -25,11 +32,14 @@ export default {
         '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.map);
 
-    await api.log.getLocationsLogs(this.date).then(logs => (this.logs = logs));
     this.drawLogsMap();
   },
   methods: {
-    drawLogsMap() {
+    async drawLogsMap() {
+      this.clearMap();
+      let [fromDate, toDate] = Storage.getDates();
+      this.logs = await api.log.getLocationsLogs(fromDate, toDate);
+
       let pointList = this.logs.map(log => {
         let point = new L.LatLng(log.data.latitude, log.data.longitude);
         this.layers.push(

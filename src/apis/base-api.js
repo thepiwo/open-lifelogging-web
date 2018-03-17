@@ -1,15 +1,16 @@
 import axios from "axios";
+import Storage from "../utils/storage";
 
 export default {
-  LOGS: date => `logs?date=${date}`,
+  LOGS: (fromDate, toDate) => `logs?date=${fromDate}&toDate=${toDate}`,
 
   USERS_ME: "users/me",
 
   AUTH_SIGN_IN: "auth/signIn",
 
-  LOGS_KEY: (key, date) => {
-    if (date) {
-      return `logs/key/${key}?date=${date}`;
+  LOGS_KEY: (key, fromDate, toDate) => {
+    if (fromDate && toDate) {
+      return `logs/key/${key}?date=${fromDate}&toDate=${toDate}`;
     } else {
       return `logs/key/${key}`;
     }
@@ -17,19 +18,15 @@ export default {
 
   LOG_DELETE: id => `logs/${id}`,
 
-  getApiUrl: () => localStorage.getItem("apiUrl"),
-
-  getToken: () => localStorage.getItem("token"),
-
   getClient: () =>
     axios.create({
-      baseURL: this.a.getApiUrl()
+      baseURL: Storage.getApiUrl()
     }),
 
   getAuthClient: () =>
     axios.create({
-      baseURL: this.a.getApiUrl(),
-      headers: { Token: this.a.getToken() }
+      baseURL: Storage.getApiUrl(),
+      headers: { Token: Storage.getToken() }
     }),
 
   getAuth: route =>

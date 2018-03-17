@@ -9,10 +9,26 @@ export default {
       });
     }),
 
-  getLogs: date => this.a.mapLogs(baseApi.getAuth(baseApi.LOGS(date))),
+  getLogs: (fromDate, toDate) =>
+    this.a.mapLogs(
+      baseApi.getAuth(
+        baseApi.LOGS(
+          fromDate.toISOString().slice(0, 10),
+          toDate.toISOString().slice(0, 10)
+        )
+      )
+    ),
 
-  getLocationsLogs: date =>
-    this.a.mapLogs(baseApi.getAuth(baseApi.LOGS_KEY("CoordEntity", date))),
+  getLocationsLogs: (fromDate, toDate) =>
+    this.a.mapLogs(
+      baseApi.getAuth(
+        baseApi.LOGS_KEY(
+          "CoordEntity",
+          fromDate.toISOString().slice(0, 10),
+          toDate.toISOString().slice(0, 10)
+        )
+      )
+    ),
 
   deleteLog: id => baseApi.deleteAuth(baseApi.LOG_DELETE(id))
 };

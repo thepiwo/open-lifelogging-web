@@ -34,6 +34,7 @@
 
 <script>
 import api from "../apis/api";
+import Storage from "../utils/storage";
 
 export default {
   data() {
@@ -46,12 +47,9 @@ export default {
 
   methods: {
     async login() {
-      localStorage.setItem("apiUrl", this.baseUrl);
+      Storage.setApiUrl(this.baseUrl);
       let data = await api.user.getLoginToken(this.username, this.password);
-      console.log("data", data);
-      localStorage.setItem("token", data.token);
-      let logs = await api.log.getLocationsLogs(new Date());
-      console.log("logs", logs);
+      Storage.setToken(data.token);
     }
   }
 };

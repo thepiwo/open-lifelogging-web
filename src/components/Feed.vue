@@ -1,7 +1,7 @@
 <template>
     <div id="feed" class="container card">
         <div class="card-body">
-            <h1 class="card-title" v-if="user">{{date}} feed for {{user.username}}
+            <h1 class="card-title" v-if="user">{{fromDate}} to {{toDate}} feed for {{user.username}}
                 <small v-show="logs">{{logs.length}} logs</small>
             </h1>
             <ul class="card-text">
@@ -30,24 +30,41 @@
 
 <script>
 import api from "../apis/api";
+import { EventBus } from "../utils/event-bus";
+import Storage from "../utils/storage";
 
 export default {
   data() {
     return {
-      date: "1970-01-18", //new Date().toISOString().slice(0, 10),
+      fromDate: "",
+      toDate: "",
       logs: [],
       user: null
     };
   },
   created() {
-    api.log.getLogs(this.date).then(logs => (this.logs = logs));
+    let [fromDate, toDate] = Storage.getDates();
+    this.fromDate = fromDate;
+    this.toDate = toDate;
+
     api.user.getCurrentUser().then(user => (this.user = user));
+    this.dateChange();
+
+    EventBus.$on("dateChange", () => {
+      this.dateChange();
+    });
   },
   methods: {
     async deleteLog(id) {
       await api.log.deleteLog(id);
       let logs = await api.log.getLogs(this.date);
       this.logs = logs;
+    },
+    dateChange() {
+      let [fromDate, toDate] = Storage.getDates();
+      this.fromDate = fromDate.toISOString().slice(0, 10);
+      this.toDate = toDate.toISOString().slice(0, 10);
+      api.log.getLogs(fromDate, toDate).then(logs => (this.logs = logs));
     }
   }
 };
