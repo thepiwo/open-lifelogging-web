@@ -19,13 +19,14 @@ export default {
       )
     ),
 
-  getLocationsLogs: (fromDate, toDate) =>
+  getLocationsLogs: (fromDate, toDate, unlimited) =>
     this.a.mapLogs(
       baseApi.getAuth(
         baseApi.LOGS_KEY(
           "CoordEntity",
           fromDate.toISOString().slice(0, 10),
-          toDate.toISOString().slice(0, 10)
+          toDate.toISOString().slice(0, 10),
+          unlimited
         )
       )
     ),

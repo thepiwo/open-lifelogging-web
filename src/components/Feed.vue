@@ -23,6 +23,7 @@
                     </div>
                 </div>
             </ul>
+            <a @click="downloadGPX()" class="btn btn-default">Download GPX</a>
         </div>
     </div>
 </template>
@@ -32,6 +33,7 @@
 import api from "../apis/api";
 import { EventBus } from "../utils/event-bus";
 import Storage from "../utils/storage";
+import GPX from "../utils/gpx";
 
 export default {
   data() {
@@ -65,6 +67,14 @@ export default {
       this.fromDate = fromDate.toISOString().slice(0, 10);
       this.toDate = toDate.toISOString().slice(0, 10);
       api.log.getLogs(fromDate, toDate).then(logs => (this.logs = logs));
+    },
+    async downloadGPX() {
+      let [fromDate, toDate] = Storage.getDates();
+      this.fromDate = fromDate.toISOString().slice(0, 10);
+      this.toDate = toDate.toISOString().slice(0, 10);
+
+      let logs = await api.log.getLocationsLogs(fromDate, toDate, true);
+      GPX.createFile(logs);
     }
   }
 };

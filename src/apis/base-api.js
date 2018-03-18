@@ -8,13 +8,8 @@ export default {
 
   AUTH_SIGN_IN: "auth/signIn",
 
-  LOGS_KEY: (key, fromDate, toDate) => {
-    if (fromDate && toDate) {
-      return `logs/key/${key}?date=${fromDate}&toDate=${toDate}`;
-    } else {
-      return `logs/key/${key}`;
-    }
-  },
+  LOGS_KEY: (key, fromDate, toDate, unlimited) =>
+    `logs/key/${key}?date=${fromDate}&toDate=${toDate}&unlimited=${unlimited}`,
 
   LOG_DELETE: id => `logs/${id}`,
 
