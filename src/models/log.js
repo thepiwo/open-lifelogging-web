@@ -17,6 +17,14 @@ export default class Log {
         return new LogWifi(data);
     }
   }
+
+  static mapLogs(promise) {
+    return promise.then(logs => {
+      return logs.map(log => {
+        return new Log(log);
+      });
+    });
+  }
 }
 
 export class LogWifi {

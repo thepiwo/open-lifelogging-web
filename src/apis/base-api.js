@@ -1,5 +1,4 @@
-import axios from "axios";
-import Storage from "../utils/storage";
+import apiClients from "./api-clients";
 
 export default {
   LOGS: (fromDate, toDate) => `logs?date=${fromDate}&toDate=${toDate}`,
@@ -13,33 +12,22 @@ export default {
 
   LOG_DELETE: id => `logs/${id}`,
 
-  getClient: () =>
-    axios.create({
-      baseURL: Storage.getApiUrl()
-    }),
-
-  getAuthClient: () =>
-    axios.create({
-      baseURL: Storage.getApiUrl(),
-      headers: { Token: Storage.getToken() }
-    }),
-
   getAuth: route =>
-    this.a
+    apiClients
       .getAuthClient()
       .get(route)
       .then(response => response.data)
       .catch(error => console.error(error)),
 
   deleteAuth: route =>
-    this.a
+    apiClients
       .getAuthClient()
       .delete(route)
       .then(response => response.data)
       .catch(error => console.error(error)),
 
   post: (route, data) =>
-    this.a
+    apiClients
       .getClient()
       .post(route, data)
       .then(response => response.data)

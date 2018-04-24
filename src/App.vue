@@ -22,7 +22,7 @@
                 </ul>
 
                 <div class="">
-                    <vue-datepicker-local v-model="range" range-separator="-" :local="local" @confirm="changeDate()"/>
+                    <vue-datepicker-local v-model="range" range-separator="-" :local="local" />
                 </div>
             </div>
         </nav>
