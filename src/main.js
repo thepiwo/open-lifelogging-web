@@ -1,9 +1,8 @@
 import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
-
-require("../node_modules/bootstrap/scss/bootstrap.scss");
-require("../node_modules/leaflet/dist/leaflet.css");
+import "bootstrap/scss/bootstrap.scss";
+import "leaflet/dist/leaflet.css";
 
 Vue.config.productionTip = false;
 

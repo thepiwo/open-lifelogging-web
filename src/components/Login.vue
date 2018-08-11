@@ -1,35 +1,61 @@
 <template>
-    <div class="container login-container card">
+  <div class="container login-container card">
 
-        <div class="card-body">
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="base-url-addon">base-url</span>
-                </div>
-                <input type="text" class="form-control" placeholder="base-url" aria-label="base-url"
-                       aria-describedby="base-url-addon" v-model="baseUrl"/>
-            </div>
-
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="username-addon">username</span>
-                </div>
-                <input type="text" class="form-control" placeholder="username" aria-label="username"
-                       aria-describedby="username-addon" v-model="username"/>
-            </div>
-
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="password-addon">password</span>
-                </div>
-                <input type="password" class="form-control" placeholder="password" aria-label="password"
-                       aria-describedby="password-addon" v-model="password"/>
-            </div>
-
-            <input class="btn btn-submit" type="button" id="login" value="login" @click="login()"/>
+    <div class="card-body">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span 
+            id="base-url-addon" 
+            class="input-group-text">base-url</span>
         </div>
+        <input 
+          v-model="baseUrl" 
+          type="text" 
+          class="form-control" 
+          placeholder="base-url"
+          aria-label="base-url" 
+          aria-describedby="base-url-addon">
+      </div>
 
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span 
+            id="username-addon" 
+            class="input-group-text">username</span>
+        </div>
+        <input 
+          v-model="username" 
+          type="text" 
+          class="form-control" 
+          placeholder="username"
+          aria-label="username" 
+          aria-describedby="username-addon">
+      </div>
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span 
+            id="password-addon" 
+            class="input-group-text">password</span>
+        </div>
+        <input 
+          v-model="password" 
+          type="password" 
+          class="form-control" 
+          placeholder="password"
+          aria-label="password" 
+          aria-describedby="password-addon">
+      </div>
+
+      <input 
+        id="login" 
+        class="btn btn-submit" 
+        type="button" 
+        value="login" 
+        @click="login()">
     </div>
+
+  </div>
 </template>
 
 <script>

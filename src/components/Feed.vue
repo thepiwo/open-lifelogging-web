@@ -1,31 +1,44 @@
 <template>
-    <div id="feed" class="container card">
-        <div class="card-body">
-            <h1 class="card-title" v-if="user">{{fromDate}} to {{toDate}} feed for {{user.username}}
-                <small v-show="logs">{{logs.length}} logs</small>
-            </h1>
-            <ul class="card-text">
-                <div class="row" v-for="log in logs" :key='log.id'>
-                    <div class="col-2">
-                        <span class="badge badge">{{log.createdAtClient}}</span>
-                    </div>
-                    <div class="col-2">
-                        <span class="badge badge-primary">{{log.key}}</span>
-                    </div>
-                    <div class="col-7">
-                        {{log.data.getDesc()}}
-                    </div>
+  <div 
+    id="feed" 
+    class="container card">
+    <div class="card-body">
+      <h1 
+        v-if="user" 
+        class="card-title">{{ fromDate }} to {{ toDate }} feed for {{ user.username }}
+        <small v-show="logs">{{ logs.length }} logs</small>
+      </h1>
+      <ul class="card-text">
+        <div 
+          v-for="log in logs" 
+          :key="log.id" 
+          class="row">
+          <div class="col-2">
+            <span class="badge badge">{{ log.createdAtClient }}</span>
+          </div>
+          <div class="col-2">
+            <span class="badge badge-primary">{{ log.key }}</span>
+          </div>
+          <div class="col-7">
+            {{ log.data.getDesc() }}
+          </div>
 
-                    <div class="col-1">
-                        <button type="button" class="close" aria-label="Close" @click="deleteLog(log.id)">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                </div>
-            </ul>
-            <a @click="downloadGPX()" class="btn btn-default">Download GPX</a>
+          <div class="col-1">
+            <button 
+              type="button" 
+              class="close" 
+              aria-label="Close" 
+              @click="deleteLog(log.id)">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
         </div>
+      </ul>
+      <a 
+        class="btn btn-default" 
+        @click="downloadGPX()">Download GPX</a>
     </div>
+  </div>
 </template>
 
 
@@ -59,8 +72,7 @@ export default {
   methods: {
     async deleteLog(id) {
       await api.log.deleteLog(id);
-      let logs = await api.log.getLogs(this.date);
-      this.logs = logs;
+      this.logs = await api.log.getLogs(this.date);
     },
     dateChange() {
       let [fromDate, toDate] = Storage.getDates();

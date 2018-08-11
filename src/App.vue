@@ -1,34 +1,50 @@
 <template>
-    <div id="app">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <router-link class="navbar-brand" to="/">open-lifelogging</router-link>
-            <button class="navbar-toggler" type="button" data-toggle="collapse"
-                    data-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+  <div id="app">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <router-link
+        class="navbar-brand"
+        to="/">open-lifelogging</router-link>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"/>
+      </button>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
+      <div
+        id="navbarSupportedContent"
+        class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="/feed">Feed</a>
-                    </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              href="/feed">Feed</a>
+          </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="/map">Map</a>
-                    </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              href="/map">Map</a>
+          </li>
 
-                </ul>
+        </ul>
 
-                <div class="">
-                    <vue-datepicker-local v-model="range" range-separator="-" :local="local" />
-                </div>
-            </div>
-        </nav>
+        <div class="">
+          <vue-datepicker-local
+            v-model="range"
+            :local="local"
+            range-separator="-" />
+        </div>
+      </div>
+    </nav>
 
-        <router-view/>
-    </div>
+    <router-view/>
+  </div>
 </template>
 
 <script>
@@ -59,14 +75,14 @@ export default {
       }
     };
   },
-  created() {
-    this.range = Storage.getDates();
-  },
   watch: {
     range: function(range) {
       Storage.setDates(range[0], range[1]);
       EventBus.$emit("dateChange");
     }
+  },
+  created() {
+    this.range = Storage.getDates();
   }
 };
 </script>

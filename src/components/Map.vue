@@ -1,17 +1,19 @@
 <template>
-    <div id="map"></div>
+  <div id="map"/>
 </template>
 
 <script>
 import api from "../apis/api";
 import L from "leaflet";
+import "mapbox-gl-leaflet";
 import { EventBus } from "../utils/event-bus";
 import Storage from "../utils/storage";
 
 export default {
   data() {
     return {
-      date: "1970-01-18", //new Date().toISOString().slice(0, 10),
+      mapToken: process.env.VUE_APP_MAP_TOKEN,
+      date: new Date().toISOString().slice(0, 10),
       logs: [],
       layers: [],
       icon: L.divIcon({
@@ -27,9 +29,13 @@ export default {
   },
   async mounted() {
     this.map = L.map("map", { zoomControl: false }).setView([0, 0], 13);
-    L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
+    L.mapboxGL({
       attribution:
-        '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        '<a href="https://www.maptiler.com/license/maps/" target="_blank">© MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors</a>',
+      accessToken: "not-needed",
+      style: `https://maps.tilehosting.com/styles/basic/style.json?key=${
+        this.mapToken
+      }`
     }).addTo(this.map);
 
     this.drawLogsMap();

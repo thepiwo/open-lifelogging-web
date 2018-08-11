@@ -1,7 +1,16 @@
 {
   "root": true,
+  "globals": {
+    "process": false
+  },
+  "parserOptions": {
+    "ecmaVersion": 8
+  },
   "extends": [
-    "plugin:vue/essential",
+    "plugin:vue/recommended",
     "@vue/prettier"
-  ]
+  ],
+  "rules": {
+    "no-console": ["error", { "allow": ["error"] }]
+  }
 }
