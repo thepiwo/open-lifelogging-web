@@ -70,11 +70,35 @@ export default {
         minuteTip: "Select Minute",
         secondTip: "Select Second",
         yearSuffix: "",
-        monthsHead: "January_February_March_April_May_June_July_August_September_October_November_December".split(
-          "_"
-        ),
-        months: "Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec".split("_"),
-        weeks: "Su_Mo_Tu_We_Th_Fr_Sa".split("_"),
+        monthsHead: [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December"
+        ],
+        months: [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec"
+        ],
+        weeks: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
         cancelTip: "cancel",
         submitTip: "confirm"
       }
