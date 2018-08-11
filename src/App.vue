@@ -34,12 +34,17 @@
 
         </ul>
 
-        <div class="">
-          <vue-datepicker-local
-            v-model="range"
-            :local="local"
-            range-separator="-" />
-        </div>
+        <input
+          id="reset-today"
+          class="btn"
+          type="button"
+          value="Today"
+          @click="resetToday()">
+
+        <vue-datepicker-local
+          v-model="range"
+          :local="local"
+          range-separator="-" />
       </div>
     </nav>
 
@@ -83,6 +88,13 @@ export default {
   },
   created() {
     this.range = Storage.getDates();
+  },
+  methods: {
+    async resetToday() {
+      this.range = [new Date(), new Date()];
+      Storage.setDates(this.range[0], this.range[1]);
+      EventBus.$emit("dateChange");
+    }
   }
 };
 </script>
@@ -94,8 +106,16 @@ export default {
   color: #2e2e2e;
 }
 
+.datepicker:before {
+  background: none;
+}
+
 .datepicker-range .datepicker-popup {
   width: 415px !important;
   left: -90px;
+}
+
+#reset-today {
+  margin-right: 10px;
 }
 </style>
