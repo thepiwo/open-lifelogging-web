@@ -61,21 +61,25 @@
 <script>
 import api from "../apis/api";
 import Storage from "../utils/storage";
+import router from "../router";
 
 export default {
   data() {
     return {
-      baseUrl: "//localhost:9001/v1/",
+      baseUrl: process.env.VUE_APP_BASE_URL || "//localhost:9001/v1/",
       username: "",
       password: ""
     };
   },
-
+  mounted() {
+    api.user.getCurrentUser().then(() => router.push("feed"));
+  },
   methods: {
     async login() {
       Storage.setApiUrl(this.baseUrl);
       let data = await api.user.getLoginToken(this.username, this.password);
       Storage.setToken(data.token);
+      router.push("feed");
     }
   }
 };
