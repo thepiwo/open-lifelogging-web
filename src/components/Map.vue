@@ -12,6 +12,7 @@ import Storage from "../utils/storage";
 export default {
   data() {
     return {
+      currentSelected: null,
       mapToken: process.env.VUE_APP_MAP_TOKEN,
       date: new Date().toISOString().slice(0, 10),
       logs: [],
@@ -38,10 +39,12 @@ export default {
       }`
     }).addTo(this.map);
 
+    this.initializeDeleteListeners();
+
     this.drawLogsMap();
   },
   methods: {
-    async drawLogsMap() {
+    async drawLogsMap(skipBoundFit = false) {
       this.clearMap();
       let [fromDate, toDate] = Storage.getDates();
       this.logs = await api.log.getLocationsLogs(fromDate, toDate);
@@ -49,7 +52,7 @@ export default {
       let pointList = this.logs.map(log => {
         let point = new L.LatLng(log.data.latitude, log.data.longitude);
         this.layers.push(
-          L.marker(point, { icon: this.icon }).bindPopup(
+          L.marker(point, { icon: this.icon, log: log }).bindPopup(
             log.data.getMarker(log).content
           )
         );
@@ -70,7 +73,7 @@ export default {
         });
 
         let group = new L.featureGroup(this.layers);
-        this.map.fitBounds(group.getBounds());
+        if (!skipBoundFit) this.map.fitBounds(group.getBounds());
       }
     },
     clearMap() {
@@ -78,6 +81,32 @@ export default {
         this.map.removeLayer(layer);
       });
       this.layers = [];
+    },
+    initializeDeleteListeners() {
+      this.map.on("popupopen", event => {
+        this.currentSelected = { log: event.popup._source.options.log };
+      });
+
+      this.map.on("popupclose", () => (this.currentSelected = null));
+
+      window.addEventListener("keyup", event => {
+        if (event.code === "Delete" && this.currentSelected != null) {
+          if (
+            confirm(
+              `Delete Log ${this.currentSelected.log.id} from ${
+                this.currentSelected.log.createdAtClient
+              }?`
+            )
+          ) {
+            this.deleteLog(this.currentSelected.log.id);
+            this.drawLogsMap(true);
+          }
+        }
+      });
+    },
+    async deleteLog(id) {
+      await api.log.deleteLog(id);
+      this.logs = await api.log.getLogs(this.date);
     }
   }
 };
@@ -96,10 +125,10 @@ export default {
   .icon {
     background-color: #323232;
     border-radius: 50%;
-    width: 8px;
-    height: 8px;
-    margin-top: -4px;
-    margin-left: -4px;
+    width: 6px;
+    height: 6px;
+    margin-top: -3px;
+    margin-left: -3px;
   }
 }
 </style>
