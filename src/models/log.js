@@ -1,3 +1,5 @@
+import LogReturn from "./log-return";
+
 export default class Log {
   constructor(opts) {
     this.id = opts.id;
@@ -19,11 +21,7 @@ export default class Log {
   }
 
   static mapLogs(promise) {
-    return promise.then(logs => {
-      return logs.map(log => {
-        return new Log(log);
-      });
-    });
+    return promise.then(logReturn => new LogReturn(logReturn));
   }
 }
 

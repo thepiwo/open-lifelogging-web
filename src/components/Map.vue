@@ -47,7 +47,7 @@ export default {
     async drawLogsMap(skipBoundFit = false) {
       this.clearMap();
       let [fromDate, toDate] = Storage.getDates();
-      this.logs = await api.log.getLocationsLogs(fromDate, toDate);
+      this.logs = (await api.log.getLocationsLogs(fromDate, toDate)).logs;
 
       let pointList = this.logs.map(log => {
         let point = new L.LatLng(log.data.latitude, log.data.longitude);
@@ -82,7 +82,7 @@ export default {
       });
       this.layers = [];
     },
-    initializeDeleteListeners() {
+    async initializeDeleteListeners() {
       this.map.on("popupopen", event => {
         this.currentSelected = { log: event.popup._source.options.log };
       });
@@ -98,15 +98,15 @@ export default {
               }?`
             )
           ) {
-            this.deleteLog(this.currentSelected.log.id);
-            this.drawLogsMap(true);
+            this.deleteLog(this.currentSelected.log.id).then(() =>
+              this.drawLogsMap(true)
+            );
           }
         }
       });
     },
-    async deleteLog(id) {
-      await api.log.deleteLog(id);
-      this.logs = await api.log.getLogs(this.date);
+    deleteLog(id) {
+      return api.log.deleteLog(id);
     }
   }
 };

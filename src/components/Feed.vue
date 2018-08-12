@@ -1,17 +1,17 @@
 <template>
-  <div 
-    id="feed" 
+  <div
+    id="feed"
     class="container card">
     <div class="card-body">
-      <h1 
-        v-if="user" 
+      <h1
+        v-if="user"
         class="card-title">{{ fromDate }} to {{ toDate }} feed for {{ user.username }}
-        <small v-show="logs">{{ logs.length }} logs</small>
+        <small v-show="logs">{{ logs.length }} logs (of {{ countTotal }})</small>
       </h1>
       <ul class="card-text">
         <div
-          v-for="log in logs" 
-          :key="log.id" 
+          v-for="log in logs"
+          :key="log.id"
           class="row">
           <div class="col-sm-4 col-lg-2">
             <span class="badge badge">{{ log.createdAtClient }}</span>
@@ -24,18 +24,18 @@
           </div>
 
           <div class="col-sm-1 d-none d-md-block">
-            <button 
-              type="button" 
-              class="close" 
-              aria-label="Close" 
+            <button
+              type="button"
+              class="close"
+              aria-label="Close"
               @click="deleteLog(log.id)">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
         </div>
       </ul>
-      <a 
-        class="btn btn-default" 
+      <a
+        class="btn btn-default"
         @click="downloadGPX()">Download GPX</a>
     </div>
   </div>
@@ -54,7 +54,8 @@ export default {
       fromDate: "",
       toDate: "",
       logs: [],
-      user: null
+      user: null,
+      countTotal: 0
     };
   },
   created() {
@@ -72,13 +73,18 @@ export default {
   methods: {
     async deleteLog(id) {
       await api.log.deleteLog(id);
-      this.logs = await api.log.getLogs(this.date);
+      let logReturn = await api.log.getLogs(this.date);
+      this.logs = logReturn.logs;
+      this.countTotal = logReturn.countTotal;
     },
     dateChange() {
       let [fromDate, toDate] = Storage.getDates();
       this.fromDate = fromDate.toISOString().slice(0, 10);
       this.toDate = toDate.toISOString().slice(0, 10);
-      api.log.getLogs(fromDate, toDate).then(logs => (this.logs = logs));
+      api.log.getLogs(fromDate, toDate).then(logReturn => {
+        this.logs = logReturn.logs;
+        this.countTotal = logReturn.countTotal;
+      });
     },
     async downloadGPX() {
       let [fromDate, toDate] = Storage.getDates();
