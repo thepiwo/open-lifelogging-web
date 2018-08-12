@@ -2,6 +2,7 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import "bootstrap/scss/bootstrap.scss";
+import "bootstrap/dist/js/bootstrap.bundle.js";
 import "leaflet/dist/leaflet.css";
 
 Vue.config.productionTip = false;

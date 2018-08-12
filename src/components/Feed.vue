@@ -9,21 +9,21 @@
         <small v-show="logs">{{ logs.length }} logs</small>
       </h1>
       <ul class="card-text">
-        <div 
+        <div
           v-for="log in logs" 
           :key="log.id" 
           class="row">
-          <div class="col-2">
+          <div class="col-sm-4 col-lg-2">
             <span class="badge badge">{{ log.createdAtClient }}</span>
           </div>
-          <div class="col-2">
+          <div class="col-sm-2">
             <span class="badge badge-primary">{{ log.key }}</span>
           </div>
-          <div class="col-7">
+          <div class="col-sm-7 d-none d-md-block">
             {{ log.data.getDesc() }}
           </div>
 
-          <div class="col-1">
+          <div class="col-sm-1 d-none d-md-block">
             <button 
               type="button" 
               class="close" 

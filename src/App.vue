@@ -41,6 +41,13 @@
           value="Today"
           @click="resetToday()">
 
+        <input
+          id="reset-week"
+          class="btn"
+          type="button"
+          value="Week"
+          @click="resetWeek()">
+
         <vue-datepicker-local
           v-model="range"
           :local="local"
@@ -114,8 +121,16 @@ export default {
     this.range = Storage.getDates();
   },
   methods: {
-    async resetToday() {
-      this.range = [new Date(), new Date()];
+    resetToday() {
+      let today = new Date();
+      this.range = [today, today];
+      Storage.setDates(this.range[0], this.range[1]);
+      EventBus.$emit("dateChange");
+    },
+    resetWeek() {
+      let today = new Date();
+      let weekAgo = new Date(new Date().setDate(today.getDate() - 7));
+      this.range = [weekAgo, today];
       Storage.setDates(this.range[0], this.range[1]);
       EventBus.$emit("dateChange");
     }
@@ -123,7 +138,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -134,12 +149,28 @@ export default {
   background: none;
 }
 
-.datepicker-range .datepicker-popup {
-  width: 415px !important;
-  left: -90px;
+.datepicker input {
+  border-radius: 0.25rem;
 }
 
-#reset-today {
+.datepicker-range .datepicker-popup {
+  border-radius: 0.25rem;
+  @media only screen and (min-width: 514px) {
+    width: 415px !important;
+    left: -90px;
+  }
+  @media only screen and (max-width: 514px) {
+    width: 415px !important;
+    left: -48px;
+    transform: scale(0.8);
+  }
+}
+
+#reset-today,
+#reset-week {
   margin-right: 10px;
+  @media only screen and (max-width: 527px) {
+    margin-bottom: 4px;
+  }
 }
 </style>
