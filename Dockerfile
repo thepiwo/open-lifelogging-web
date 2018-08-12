@@ -2,7 +2,6 @@ FROM node:9-alpine as build
 
 WORKDIR /app
 COPY . /app
-RUN set > .env.production
 
 RUN npm install
 RUN npm run build
