@@ -91,8 +91,8 @@ export default {
       this.fromDate = fromDate.toISOString().slice(0, 10);
       this.toDate = toDate.toISOString().slice(0, 10);
 
-      let logs = await api.log.getLocationsLogs(fromDate, toDate, true);
-      GPX.createFile(logs);
+      let logReturn = await api.log.getLocationsLogs(fromDate, toDate, true);
+      GPX.createFile(logReturn.logs);
     }
   }
 };
