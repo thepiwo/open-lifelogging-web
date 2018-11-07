@@ -4,54 +4,54 @@
     <div class="card-body">
       <div class="input-group mb-3">
         <div class="input-group-prepend">
-          <span 
-            id="base-url-addon" 
+          <span
+            id="base-url-addon"
             class="input-group-text">base-url</span>
         </div>
-        <input 
-          v-model="baseUrl" 
-          type="text" 
-          class="form-control" 
+        <input
+          v-model="baseUrl"
+          type="text"
+          class="form-control"
           placeholder="base-url"
-          aria-label="base-url" 
+          aria-label="base-url"
           aria-describedby="base-url-addon">
       </div>
 
       <div class="input-group mb-3">
         <div class="input-group-prepend">
-          <span 
-            id="username-addon" 
+          <span
+            id="username-addon"
             class="input-group-text">username</span>
         </div>
-        <input 
-          v-model="username" 
-          type="text" 
-          class="form-control" 
+        <input
+          v-model="username"
+          type="text"
+          class="form-control"
           placeholder="username"
-          aria-label="username" 
+          aria-label="username"
           aria-describedby="username-addon">
       </div>
 
       <div class="input-group mb-3">
         <div class="input-group-prepend">
-          <span 
-            id="password-addon" 
+          <span
+            id="password-addon"
             class="input-group-text">password</span>
         </div>
-        <input 
-          v-model="password" 
-          type="password" 
-          class="form-control" 
+        <input
+          v-model="password"
+          type="password"
+          class="form-control"
           placeholder="password"
-          aria-label="password" 
+          aria-label="password"
           aria-describedby="password-addon">
       </div>
 
-      <input 
-        id="login" 
-        class="btn btn-submit" 
-        type="button" 
-        value="login" 
+      <input
+        id="login"
+        class="btn btn-submit"
+        type="button"
+        value="login"
         @click="login()">
     </div>
 
@@ -72,7 +72,11 @@ export default {
     };
   },
   mounted() {
-    api.user.getCurrentUser().then(() => router.push("feed"));
+    api.user.getCurrentUser().then(user => {
+      if (user.id) {
+        router.push("feed");
+      }
+    });
   },
   methods: {
     async login() {
