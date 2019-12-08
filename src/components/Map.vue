@@ -34,7 +34,7 @@ export default {
       attribution:
         '<a href="https://www.maptiler.com/license/maps/" target="_blank">© MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors</a>',
       accessToken: "not-needed",
-      style: `https://maps.tilehosting.com/styles/basic/style.json?key=${
+      style: `https://api.maptiler.com/maps/3a221b59-0834-47e1-a21a-4c0e3488bb09/style.json?key=${
         this.mapToken
       }`
     }).addTo(this.map);
@@ -62,8 +62,8 @@ export default {
       if (pointList.length) {
         let polyLine = new L.Polyline(pointList, {
           color: "#323232",
-          weight: 2,
-          opacity: 1,
+          weight: 1.5,
+          opacity: 0.5,
           smoothFactor: 1
         });
 
@@ -125,10 +125,11 @@ export default {
   .icon {
     background-color: #323232;
     border-radius: 50%;
-    width: 6px;
-    height: 6px;
-    margin-top: -3px;
-    margin-left: -3px;
+    opacity: 0.5;
+    width: 4px;
+    height: 4px;
+    margin-top: -2px;
+    margin-left: -2px;
   }
 }
 </style>
