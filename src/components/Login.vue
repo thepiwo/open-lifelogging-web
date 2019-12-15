@@ -1,6 +1,5 @@
 <template>
   <div class="container login-container card">
-
     <div class="card-body">
       <div class="input-group mb-3">
         <div class="input-group-prepend">
@@ -54,7 +53,6 @@
         value="login"
         @click="login()">
     </div>
-
   </div>
 </template>
 

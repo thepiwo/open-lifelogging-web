@@ -5,7 +5,8 @@
     <div class="card-body">
       <h1
         v-if="user"
-        class="card-title">{{ fromDate }} to {{ toDate }} feed for {{ user.username }}
+        class="card-title">
+        {{ fromDate }} to {{ toDate }} feed for {{ user.username }}
         <small v-show="logs">{{ logs.length }} logs (of {{ countTotal }})</small>
       </h1>
       <ul class="card-text">

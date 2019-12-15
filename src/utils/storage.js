@@ -15,6 +15,14 @@ export default {
     }
   },
 
+  setUnit(unit) {
+    localStorage.setItem("unit", unit);
+  },
+
+  getUnit() {
+    return localStorage.getItem("unit")
+  },
+
   setApiUrl(apiUrl) {
     localStorage.setItem("apiUrl", apiUrl);
   },
