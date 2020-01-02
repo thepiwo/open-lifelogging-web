@@ -65,20 +65,18 @@ export default {
     this.toDate = toDate;
 
     api.user.getCurrentUser().then(user => (this.user = user));
-    this.dateChange();
+    this.loadLogs();
 
     EventBus.$on("dateChange", () => {
-      this.dateChange();
+      this.loadLogs();
     });
   },
   methods: {
     async deleteLog(id) {
       await api.log.deleteLog(id);
-      let logReturn = await api.log.getLogs(this.date);
-      this.logs = logReturn.logs;
-      this.countTotal = logReturn.countTotal;
+      this.loadLogs();
     },
-    dateChange() {
+    loadLogs() {
       let [fromDate, toDate] = Storage.getDates();
       this.fromDate = fromDate.toISOString().slice(0, 10);
       this.toDate = toDate.toISOString().slice(0, 10);
