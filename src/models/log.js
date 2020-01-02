@@ -17,11 +17,25 @@ export default class Log {
         return new LogLocation(data);
       case "WifiEntity":
         return new LogWifi(data);
+      case "LastFMSong":
+        return new LogLastFm(data);
     }
   }
 
   static mapLogs(promise) {
     return promise.then(logReturn => new LogReturn(logReturn));
+  }
+}
+
+export class LogLastFm {
+  constructor(opts) {
+    this.name = opts.name;
+    this.artist = opts.artist;
+    this.album = opts.album;
+  }
+
+  getDesc() {
+    return `Song: ${this.name} - ${this.artist["#text"]}`;
   }
 }
 
