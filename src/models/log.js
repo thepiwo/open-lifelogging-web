@@ -35,7 +35,7 @@ export class LogLastFm {
   }
 
   getDesc() {
-    return `Song: ${this.name} - ${this.artist["#text"]}`;
+    return `${this.name} - ${this.artist["#text"]}`;
   }
 }
 

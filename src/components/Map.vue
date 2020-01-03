@@ -6,8 +6,10 @@
   import api from "../apis/api";
   import L from "leaflet";
   import "mapbox-gl-leaflet";
+  import "leaflet.markercluster"
   import {EventBus} from "../utils/event-bus";
   import Storage from "../utils/storage";
+  import * as geolib from 'geolib';
 
   export default {
     data() {
@@ -17,6 +19,10 @@
         date: new Date().toISOString().slice(0, 10),
         logs: [],
         layers: [],
+        dataIcon: L.divIcon({
+          iconSize: null,
+          html: '<div class="data-icon"></div>'
+        }),
         icon: L.divIcon({
           iconSize: null,
           html: '<div class="icon"></div>'
@@ -29,7 +35,7 @@
       });
     },
     async mounted() {
-      this.map = L.map("map", {zoomControl: false}).setView([0, 0], 13);
+      this.map = L.map("map", {zoomControl: false, maxZoom: 18}).setView([0, 0], 13);
       L.mapboxGL({
         attribution:
           '<a href="https://www.maptiler.com/license/maps/" target="_blank">© MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors</a>',
@@ -44,21 +50,60 @@
       this.drawLogsMap();
     },
     methods: {
+      findPoint(locationList, createdAtClient) {
+        const laterLocationIndex = locationList.findIndex(log => new Date(log.createdAtClient).getTime() <= new Date(createdAtClient).getTime());
+        const laterLocation = locationList[laterLocationIndex];
+        const earlierLocation = locationList[laterLocationIndex - 1 >= 0 ? laterLocationIndex - 1 : 0];
+
+        const laterEarlierDifference = new Date(earlierLocation.createdAtClient).getTime() - new Date(laterLocation.createdAtClient).getTime();
+        const laterCreatedAtDifference = new Date(createdAtClient).getTime() - new Date(laterLocation.createdAtClient).getTime();
+        const percentageDate = laterCreatedAtDifference / laterEarlierDifference;
+
+        const distance = geolib.getDistance(earlierLocation.data, laterLocation.data);
+        const direction = geolib.getRhumbLineBearing(earlierLocation.data, laterLocation.data);
+        const destination = geolib.computeDestinationPoint(earlierLocation.data, distance * percentageDate, direction);
+
+        return new L.LatLng(destination.latitude, destination.longitude);
+      },
       async drawLogsMap(skipBoundFit = false) {
         this.clearMap();
         let [fromDate, toDate] = Storage.getDates();
-        this.logs = (await api.log.getLocationsLogs(fromDate, toDate)).logs;
+        this.logs = (await api.log.getLogs(fromDate, toDate)).logs;
 
-        let pointList = this.logs.map(log => {
+        let locationList = this.logs.filter(log => log.key === "CoordEntity");
+
+        let pointList = locationList.map(log => {
           let point = new L.LatLng(log.data.latitude, log.data.longitude);
           if (Storage.getUnit() === "Day") {
             this.layers.push(L.marker(point, {icon: this.icon, log: log}).bindPopup(log.data.getMarker(log).content));
           }
+
           return point;
         });
 
+        const markersCluster = L.markerClusterGroup({
+          showCoverageOnHover: false, iconCreateFunction: function (cluster) {
+            return L.divIcon({html: '<div class="cluster-icon">' + cluster.getChildCount() + '</div>'});
+          }
+        });
+        if (Storage.getUnit() === "Day") {
+          this.logs.filter(log => log.key !== "CoordEntity").forEach(log => {
+            try {
+              const point = this.findPoint(locationList, log.createdAtClient);
+              markersCluster.addLayer(L.marker(point, {icon: this.dataIcon}).bindTooltip(log.data.getDesc(), {
+                permanent: true,
+                className: "label",
+                offset: [4, 4]
+              }));
+            } catch (e) {
+              console.error(e)
+            }
+          });
+
+        }
+
         if (pointList.length) {
-          let polyLine = new L.Polyline(pointList, {
+          let polyLine = new L.Polyline(pointList.filter(x => x), {
             color: "#323232",
             weight: 1.5,
             opacity: 0.5,
@@ -66,6 +111,7 @@
           });
 
           this.layers.push(polyLine);
+          this.layers.push(markersCluster);
           this.layers.forEach(layer => {
             layer.addTo(this.map);
           });
@@ -118,6 +164,32 @@
     .leaflet-div-icon {
       background: none;
       border: 0;
+    }
+
+    .label {
+      border: none;
+      background: none;
+      box-shadow: none;
+
+      &:before {
+        display: none;
+      }
+    }
+
+    .data-icon {
+      background-color: red;
+      width: 10px;
+      border-radius: 10px;
+      height: 10px;
+    }
+
+    .cluster-icon {
+      border: 2px solid red;
+      color: red;
+      border-radius: 7px;
+      width: 22px;
+      height: 22px;
+      text-align: center;
     }
 
     .icon {
