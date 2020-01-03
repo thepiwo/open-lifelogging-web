@@ -86,7 +86,7 @@
             return L.divIcon({html: '<div class="cluster-icon">' + cluster.getChildCount() + '</div>'});
           }
         });
-        if (Storage.getUnit() === "Day") {
+        if (["Day", "Week"].includes(Storage.getUnit())) {
           this.logs.filter(log => log.key !== "CoordEntity").forEach(log => {
             try {
               const point = this.findPoint(locationList, log.createdAtClient);
@@ -99,7 +99,6 @@
               console.error(e)
             }
           });
-
         }
 
         if (pointList.length) {
