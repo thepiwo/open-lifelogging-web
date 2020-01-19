@@ -34,6 +34,14 @@
           </li>
         </ul>
 
+        <div class="show-toggles">
+          <label>Music:
+            <input type="checkbox" v-model="toggleMusic" />
+          </label>
+          <label>Marker:
+            <input type="checkbox" v-model="toggleMarker" />
+          </label>
+        </div>
         <div
           v-for="unit in dateButtons"
           :key="unit"
@@ -79,6 +87,8 @@
     data() {
       return {
         range: [],
+        toggleMusic: false,
+        toggleMarker: false,
         dateButtons: ["Day", "Week", "Month", "Year"],
         local: {
           dow: 1,
@@ -121,13 +131,24 @@
       };
     },
     watch: {
-      range: function (range) {
+      toggleMusic: (toggleMusic) => {
+        Storage.setMusicToggle(toggleMusic);
+        EventBus.$emit("toggleMusic");
+      },
+      toggleMarker: (toggleMarker) => {
+        Storage.setMarkerToggle(toggleMarker);
+        EventBus.$emit("toggleMarker");
+      },
+      range: (range) => {
         Storage.setDates(range[0], range[1]);
         EventBus.$emit("dateChange");
       }
     },
     created() {
       this.range = Storage.getDates();
+
+      this.toggleMarker = Storage.getMarkerToggle();
+      this.toggleMusic = Storage.getMusicToggle();
     },
     methods: {
       setDate(unit, change = null) {
@@ -188,6 +209,15 @@
 
     .btn {
       padding: 0 2px 0 2px;
+    }
+  }
+
+  .show-toggles {
+    margin-right: 10px;
+
+    input[type=checkbox] {
+      margin-top: 10px;
+      margin-right: 5px;
     }
   }
 </style>

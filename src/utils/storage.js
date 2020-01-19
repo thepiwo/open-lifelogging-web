@@ -19,8 +19,24 @@ export default {
     localStorage.setItem("unit", unit);
   },
 
+  setMarkerToggle(setting) {
+    localStorage.setItem("toggleMarker", setting);
+  },
+
+  setMusicToggle(setting) {
+    localStorage.setItem("toggleMusic", setting);
+  },
+
   getUnit() {
     return localStorage.getItem("unit")
+  },
+
+  getMarkerToggle() {
+    return localStorage.getItem("toggleMarker");
+  },
+
+  getMusicToggle() {
+    return localStorage.getItem("toggleMusic");
   },
 
   setApiUrl(apiUrl) {

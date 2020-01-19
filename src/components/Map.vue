@@ -63,7 +63,7 @@
         const direction = geolib.getRhumbLineBearing(earlierLocation.data, laterLocation.data);
         const destination = geolib.computeDestinationPoint(earlierLocation.data, distance * percentageDate, direction);
 
-        return new L.LatLng(destination.latitude, destination.longitude);
+        if (destination.latitude && destination.longitude) return new L.LatLng(destination.latitude, destination.longitude);
       },
       async drawLogsMap(skipBoundFit = false) {
         this.clearMap();
@@ -90,7 +90,7 @@
           this.logs.filter(log => log.key !== "CoordEntity").forEach(log => {
             try {
               const point = this.findPoint(locationList, log.createdAtClient);
-              markersCluster.addLayer(L.marker(point, {icon: this.dataIcon}).bindTooltip(log.data.getDesc(), {
+              if (point) markersCluster.addLayer(L.marker(point, {icon: this.dataIcon}).bindTooltip(log.data.getDesc(), {
                 permanent: true,
                 className: "label",
                 offset: [4, 4]
