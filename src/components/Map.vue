@@ -1,5 +1,5 @@
 <template>
-  <div id="map" />
+  <div id="map"/>
 </template>
 
 <script>
@@ -31,6 +31,12 @@
     },
     created() {
       EventBus.$on("dateChange", () => {
+        this.drawLogsMap();
+      });
+      EventBus.$on("toggleMarker", () => {
+        this.drawLogsMap();
+      });
+      EventBus.$on("toggleMusic", () => {
         this.drawLogsMap();
       });
     },
@@ -74,7 +80,7 @@
 
         let pointList = locationList.map(log => {
           let point = new L.LatLng(log.data.latitude, log.data.longitude);
-          if (Storage.getUnit() === "Day") {
+          if (Storage.getMarkerToggle()) {
             this.layers.push(L.marker(point, {icon: this.icon, log: log}).bindPopup(log.data.getMarker(log).content));
           }
 
@@ -86,7 +92,7 @@
             return L.divIcon({html: '<div class="cluster-icon">' + cluster.getChildCount() + '</div>'});
           }
         });
-        if (["Day", "Week"].includes(Storage.getUnit())) {
+        if (Storage.getMusicToggle()) {
           this.logs.filter(log => log.key !== "CoordEntity").forEach(log => {
             try {
               const point = this.findPoint(locationList, log.createdAtClient);

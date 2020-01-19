@@ -32,11 +32,11 @@ export default {
   },
 
   getMarkerToggle() {
-    return localStorage.getItem("toggleMarker");
+    return localStorage.getItem("toggleMarker") === "true";
   },
 
   getMusicToggle() {
-    return localStorage.getItem("toggleMusic");
+    return localStorage.getItem("toggleMusic") === "true";
   },
 
   setApiUrl(apiUrl) {
