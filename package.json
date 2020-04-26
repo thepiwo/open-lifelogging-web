@@ -28,7 +28,7 @@
     "jquery": "^3.5.0",
     "leaflet": "^1.6.0",
     "mapbox-gl": "^1.9.1",
-    "mapbox-gl-leaflet": "0.0.11",
+    "mapbox-gl-leaflet": "0.0.12",
     "node-sass": "^4.14.0",
     "sass-loader": "^8.0.2",
     "style-loader": "^1.2.0",
