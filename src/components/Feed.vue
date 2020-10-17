@@ -48,6 +48,7 @@ import api from "../apis/api";
 import { EventBus } from "../utils/event-bus";
 import Storage from "../utils/storage";
 import GPX from "../utils/gpx";
+import {LimitType} from "@/models/log";
 
 export default {
   data() {
@@ -90,7 +91,7 @@ export default {
       this.fromDate = fromDate.toISOString().slice(0, 10);
       this.toDate = toDate.toISOString().slice(0, 10);
 
-      let logReturn = await api.log.getLocationsLogs(fromDate, toDate, true);
+      let logReturn = await api.log.getLocationsLogs(fromDate, toDate, LimitType.UNLIMITED);
       GPX.createFile(logReturn.logs);
     }
   }

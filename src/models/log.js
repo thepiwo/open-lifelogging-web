@@ -73,3 +73,10 @@ export class LogLocation {
     };
   }
 }
+
+export const LimitType = {
+  UNLIMITED : "unlimited",
+  LIMITED : "limited",
+  TIMESECTIONS_DAY : "timesections;day",
+  TIMESECTIONS_HOUR : "timesections;hour",
+}

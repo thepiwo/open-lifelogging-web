@@ -1,14 +1,14 @@
 import apiClients from "./api-clients";
 
 export default {
-  LOGS: (fromDate, toDate) => `logs?date=${fromDate}&toDate=${toDate}`,
+  LOGS: (fromDate, toDate, limitType) => `logs?date=${fromDate}&toDate=${toDate}&limitType=${limitType}`,
 
   USERS_ME: "users/me",
 
   AUTH_SIGN_IN: "auth/signIn",
 
-  LOGS_KEY: (key, fromDate, toDate, unlimited) =>
-    `logs/key/${key}?date=${fromDate}&toDate=${toDate}&unlimited=${unlimited}`,
+  LOGS_KEY: (key, fromDate, toDate, limitType) =>
+    `logs/key/${key}?date=${fromDate}&toDate=${toDate}&limitType=${limitType}`,
 
   LOG_DELETE: id => `logs/${id}`,
 
