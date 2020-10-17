@@ -30,13 +30,13 @@
       };
     },
     created() {
-      EventBus.$on("dateChange", () => {
+      EventBus.$on("date-change", () => {
         this.drawLogsMap();
       });
-      EventBus.$on("toggleMarker", () => {
+      EventBus.$on("toggle-marker", () => {
         this.drawLogsMap();
       });
-      EventBus.$on("toggleMusic", () => {
+      EventBus.$on("toggle-music", () => {
         this.drawLogsMap();
       });
     },

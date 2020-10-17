@@ -36,10 +36,14 @@
 
         <div class="show-toggles">
           <label>Music:
-            <input type="checkbox" v-model="toggleMusic" />
+            <input
+              v-model="toggleMusic"
+              type="checkbox">
           </label>
           <label>Marker:
-            <input type="checkbox" v-model="toggleMarker" />
+            <input
+              v-model="toggleMarker"
+              type="checkbox">
           </label>
         </div>
         <div
@@ -131,17 +135,17 @@
       };
     },
     watch: {
-      toggleMusic: (toggleMusic) => {
+      toggleMusic: function (toggleMusic) {
         Storage.setMusicToggle(toggleMusic);
-        EventBus.$emit("toggleMusic");
+        EventBus.$emit("toggle-music");
       },
-      toggleMarker: (toggleMarker) => {
+      toggleMarker: function (toggleMarker) {
         Storage.setMarkerToggle(toggleMarker);
-        EventBus.$emit("toggleMarker");
+        EventBus.$emit("toggle-marker");
       },
-      range: (range) => {
+      range: function (range) {
         Storage.setDates(range[0], range[1]);
-        EventBus.$emit("dateChange");
+        EventBus.$emit("date-change");
       }
     },
     created() {
