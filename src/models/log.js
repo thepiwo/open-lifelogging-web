@@ -55,6 +55,7 @@ export class LogLocation {
   constructor(opts) {
     this.accuracy = opts.accuracy;
     this.altitude = opts.altitude;
+    this.source = opts.source;
     this.latitude = opts.latitude;
     this.longitude = opts.longitude;
   }
@@ -69,7 +70,8 @@ export class LogLocation {
       longitude: this.longitude,
       content: `${log.createdAtClient}<br/>
                   Accuracy: ${this.accuracy}m<br/>
-                  Altitude: ${this.altitude}m<br/>`
+                  Altitude: ${this.altitude}m<br/>
+                  Source: ${this.source}<br/>`
     };
   }
 }

@@ -1,43 +1,43 @@
 <template>
-    <div>
-        <div class="show-toggles">
-          <label>Music:
-            <input
-              v-model="toggleMusic"
-              type="checkbox">
-          </label>
-          <label>Marker:
-            <input
-              v-model="toggleMarker"
-              type="checkbox">
-          </label>
-        </div>
-        <div
-          v-for="unit in dateButtons"
-          :key="unit"
-          class="set-date">
-          <input
-            class="btn plus-minus"
-            type="button"
-            value="-"
-            @click="setDate(unit, 'minus')">
-          <input
-            class="btn"
-            type="button"
-            :value="unit"
-            @click="setDate(unit)">
-          <input
-            class="btn plus-minus"
-            type="button"
-            value="+"
-            @click="setDate(unit, 'plus')">
-        </div>
-
-        <vue-datepicker-local
-          v-model="range"
-          :local="local"
-          range-separator="-" />
+  <div>
+    <div class="show-toggles">
+      <label>Music:
+        <input
+          v-model="toggleMusic"
+          type="checkbox">
+      </label>
+      <label>Marker:
+        <input
+          v-model="toggleMarker"
+          type="checkbox">
+      </label>
     </div>
+    <div
+      v-for="unit in dateButtons"
+      :key="unit"
+      class="set-date">
+      <input
+        class="btn plus-minus"
+        type="button"
+        value="-"
+        @click="setDate(unit, 'minus')">
+      <input
+        class="btn"
+        type="button"
+        :value="unit"
+        @click="setDate(unit)">
+      <input
+        class="btn plus-minus"
+        type="button"
+        value="+"
+        @click="setDate(unit, 'plus')">
+    </div>
+
+    <vue-datepicker-local
+      v-model="range"
+      :local="local"
+      range-separator="-" />
+  </div>
 </template>
 
 <script>
