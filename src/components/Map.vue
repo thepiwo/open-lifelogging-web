@@ -7,7 +7,7 @@
   import L from "leaflet";
   import "mapbox-gl-leaflet";
   import "leaflet.markercluster"
-  import {EventBus} from "../utils/event-bus";
+  import {EventBus} from "@/utils/event-bus";
   import Storage from "../utils/storage";
   import * as geolib from 'geolib';
 
@@ -15,7 +15,7 @@
     data() {
       return {
         currentSelected: null,
-        mapToken: process.env.VUE_APP_MAP_TOKEN,
+        mapToken: process.env.VUE_APP_MAPTILER_TOKEN,
         date: new Date().toISOString().slice(0, 10),
         logs: [],
         layers: [],
@@ -45,7 +45,7 @@
       L.mapboxGL({
         attribution:
           '<a href="https://www.maptiler.com/license/maps/" target="_blank">© MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors</a>',
-        accessToken: "not-needed",
+        accessToken: process.env.VUE_APP_MAPBOX_TOKEN,
         style: `https://api.maptiler.com/maps/3a221b59-0834-47e1-a21a-4c0e3488bb09/style.json?key=${
           this.mapToken
         }`
