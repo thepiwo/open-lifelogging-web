@@ -5,11 +5,16 @@
 <script>
   import api from "../apis/api";
   import L from "leaflet";
-  import "mapbox-gl-leaflet";
+  import mapboxgl from 'mapbox-gl'
+  import "mapbox-gl-leaflet"
+  import 'mapbox-gl/dist/mapbox-gl.css'
+  import 'leaflet/dist/leaflet.css'
   import "leaflet.markercluster"
   import {EventBus} from "@/utils/event-bus";
   import Storage from "../utils/storage";
   import * as geolib from 'geolib';
+
+  window.mapboxgl = mapboxgl // mapbox-gl-leaflet expects this to be global
 
   export default {
     data() {
