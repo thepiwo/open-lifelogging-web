@@ -68,7 +68,7 @@ export default {
     api.user.getCurrentUser().then(user => (this.user = user));
     this.loadLogs();
 
-    EventBus.$on("dateChange", () => {
+    EventBus.on("date-change", () => {
       this.loadLogs();
     });
   },

@@ -33,22 +33,24 @@
         @click="setDate(unit, 'plus')">
     </div>
 
-    <vue-datepicker-local
+    <VueDatePicker
       v-model="range"
-      :local="local"
-      range-separator="-" />
+      :range="true"
+      :locale="vdpLocale"
+      :enable-time-picker="false" />
   </div>
 </template>
 
 <script>
-import VueDatepickerLocal from "vue-datepicker-local";
+import VueDatePicker from "@vuepic/vue-datepicker";
+import "@vuepic/vue-datepicker/dist/main.css";
 import {EventBus} from "@/utils/event-bus";
 import Storage from "@/utils/storage";
 import * as moment from 'moment';
 
 export default {
   components: {
-    VueDatepickerLocal
+    VueDatePicker
   },
   data() {
     return {
@@ -56,58 +58,24 @@ export default {
       toggleMusic: false,
       toggleMarker: false,
       dateButtons: ["Day", "Week", "Month", "Year"],
-      local: {
-        dow: 1,
-        hourTip: "Select Hour",
-        minuteTip: "Select Minute",
-        secondTip: "Select Second",
-        yearSuffix: "",
-        monthsHead: [
-          "January",
-          "February",
-          "March",
-          "April",
-          "May",
-          "June",
-          "July",
-          "August",
-          "September",
-          "October",
-          "November",
-          "December"
-        ],
-        months: [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sep",
-          "Oct",
-          "Nov",
-          "Dec"
-        ],
-        weeks: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
-        cancelTip: "cancel",
-        submitTip: "confirm"
-      }
+      vdpLocale: "en-GB"
     };
   },
   watch: {
     toggleMusic: function (toggleMusic) {
       Storage.setMusicToggle(toggleMusic);
-      EventBus.$emit("toggle-music");
+      EventBus.emit("toggle-music");
     },
     toggleMarker: function (toggleMarker) {
       Storage.setMarkerToggle(toggleMarker);
-      EventBus.$emit("toggle-marker");
+      EventBus.emit("toggle-marker");
     },
     range: function (range) {
-      Storage.setDates(range[0], range[1]);
-      EventBus.$emit("date-change");
+      // Normalize to full-day boundaries when user changes range
+      const from = moment(range[0]).startOf('day').toDate();
+      const to = moment(range[1]).endOf('day').toDate();
+      Storage.setDates(from, to);
+      EventBus.emit("date-change");
     }
   },
   created() {
@@ -133,7 +101,10 @@ export default {
       if (unit !== 'Day') fromDate.subtract(1, momentUnit);
 
       Storage.setUnit(unit);
-      this.range = [fromDate.toDate(), toDate.toDate()];
+      // Update component range (display) with normalized day bounds
+      const from = fromDate.startOf('day').toDate();
+      const to = toDate.endOf('day').toDate();
+      this.range = [from, to];
     }
   }
 };
