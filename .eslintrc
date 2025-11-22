@@ -4,13 +4,14 @@
     "process": false
   },
   "parserOptions": {
-    "ecmaVersion": 8
+    "ecmaVersion": 2020
   },
   "extends": [
     "plugin:vue/recommended"
   ],
   "rules": {
     "no-console": ["warn", { "allow": ["error"] }],
+    "vue/multi-word-component-names": "off",
     "vue/html-closing-bracket-newline": ["error", {
       "singleline": "never",
       "multiline": "never"

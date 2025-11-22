@@ -1,9 +1,13 @@
 FROM node:lts-alpine as build
 
 WORKDIR /app
-COPY . /app
 
-RUN npm install
+# Install only dependencies first for better layer caching
+COPY package*.json ./
+RUN npm ci
+
+# Copy the rest of the source and build
+COPY . .
 RUN npm run build
 
 
