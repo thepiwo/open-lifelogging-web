@@ -12,24 +12,7 @@ export default {
 
   LOG_DELETE: id => `logs/${id}`,
 
-  getAuth: route =>
-    apiClients
-      .getAuthClient()
-      .get(route)
-      .then(response => response.data)
-      .catch(error => console.error(error)),
-
-  deleteAuth: route =>
-    apiClients
-      .getAuthClient()
-      .delete(route)
-      .then(response => response.data)
-      .catch(error => console.error(error)),
-
-  post: (route, data) =>
-    apiClients
-      .getClient()
-      .post(route, data)
-      .then(response => response.data)
-      .catch(error => console.error(error))
+  getAuth: route => apiClients.getAuth(route).catch(error => console.error(error)),
+  deleteAuth: route => apiClients.deleteAuth(route).catch(error => console.error(error)),
+  post: (route, data) => apiClients.post(route, data).catch(error => console.error(error))
 };

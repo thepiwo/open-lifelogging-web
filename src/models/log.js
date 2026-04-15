@@ -2,13 +2,15 @@ import LogReturn from "./log-return";
 
 export default class Log {
   constructor(opts) {
-    this.id = opts.id;
-    this.userId = opts.userId;
-    this.key = opts.key;
-    this.hash = opts.hash;
-    this.data = this.getDataClass(opts.key, opts.data);
-    this.createdAt = opts.createdAt;
-    this.createdAtClient = opts.createdAtClient;
+    if (opts) {
+      this.id = opts.id;
+      this.userId = opts.userId;
+      this.key = opts.key;
+      this.hash = opts.hash;
+      this.data = this.getDataClass(opts.key, opts.data);
+      this.createdAt = opts.createdAt;
+      this.createdAtClient = opts.createdAtClient;
+    }
   }
 
   getDataClass(key, data) {
@@ -29,9 +31,11 @@ export default class Log {
 
 export class LogLastFm {
   constructor(opts) {
-    this.name = opts.name;
-    this.artist = opts.artist;
-    this.album = opts.album;
+    if (opts) {
+      this.name = opts.name;
+      this.artist = opts.artist;
+      this.album = opts.album;
+    }
   }
 
   getDesc() {
@@ -41,9 +45,11 @@ export class LogLastFm {
 
 export class LogWifi {
   constructor(opts) {
-    this.ssid = opts.ssid;
-    this.speed = opts.speed;
-    this.status = opts.status;
+    if (opts) {
+      this.ssid = opts.ssid;
+      this.speed = opts.speed;
+      this.status = opts.status;
+    }
   }
 
   getDesc() {
@@ -53,11 +59,13 @@ export class LogWifi {
 
 export class LogLocation {
   constructor(opts) {
-    this.accuracy = opts.accuracy;
-    this.altitude = opts.altitude;
-    this.source = opts.source;
-    this.latitude = opts.latitude;
-    this.longitude = opts.longitude;
+    if (opts) {
+      this.accuracy = opts.accuracy;
+      this.altitude = opts.altitude;
+      this.source = opts.source;
+      this.latitude = opts.latitude;
+      this.longitude = opts.longitude;
+    }
   }
 
   getDesc() {
